@@ -1,8 +1,8 @@
 import 'package:env/drawer.dart';
 import 'package:flutter/material.dart';
-
 import 'pages/box_folder.dart';
 import 'pages/title.dart';
+import 'pages/vis_chart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -110,7 +110,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     left: screenSize.width * 0.05),
                 child: Column(children: [
                   //BoxFolder(),
-                  Titler(),
+                  //Titler(),
+                  VisChart(),
                 ])),
           ]))
         ]),
