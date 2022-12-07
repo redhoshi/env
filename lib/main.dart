@@ -1,6 +1,7 @@
 import 'package:env/drawer.dart';
 import 'package:flutter/material.dart';
 import 'pages/box_folder.dart';
+import 'pages/spotify.dart';
 import 'pages/title.dart';
 import 'pages/vis_chart.dart';
 
@@ -111,7 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(children: [
                   //BoxFolder(),
                   //Titler(),
-                  VisChart(),
+                  //VisChart(),
+                  SpotifyChart(),
                 ])),
           ]))
         ]),

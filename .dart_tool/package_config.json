@@ -110,6 +110,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "json_annotation",
+      "rootUri": "file:///Users/shihoakaki/Desktop/flutter/.pub-cache/hosted/pub.dartlang.org/json_annotation-4.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///Users/shihoakaki/Desktop/flutter/.pub-cache/hosted/pub.dartlang.org/lints-1.0.1",
       "packageUri": "lib/",
@@ -132,6 +138,12 @@
       "rootUri": "file:///Users/shihoakaki/Desktop/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.8.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "oauth2",
+      "rootUri": "file:///Users/shihoakaki/Desktop/flutter/.pub-cache/hosted/pub.dartlang.org/oauth2-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "path",
@@ -194,6 +206,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "pedantic",
+      "rootUri": "file:///Users/shihoakaki/Desktop/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.11.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "platform",
       "rootUri": "file:///Users/shihoakaki/Desktop/flutter/.pub-cache/hosted/pub.dartlang.org/platform-3.1.0",
       "packageUri": "lib/",
@@ -222,6 +240,12 @@
       "rootUri": "file:///Users/shihoakaki/Desktop/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.9.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
+    },
+    {
+      "name": "spotify",
+      "rootUri": "file:///Users/shihoakaki/Desktop/flutter/.pub-cache/hosted/pub.dartlang.org/spotify-0.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "stack_trace",
@@ -296,7 +320,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-12-06T15:46:52.505292Z",
+  "generated": "2022-12-07T06:36:47.931893Z",
   "generator": "pub",
   "generatorVersion": "2.18.5"
 }

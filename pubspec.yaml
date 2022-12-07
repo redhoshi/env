@@ -30,6 +30,7 @@ dependencies:
   google_fonts: ^3.0.1
   syncfusion_flutter_charts: "20.1.51"
   graphic: ^1.0.0
+  spotify: ^0.8.0
   flutter:
     sdk: flutter
 
