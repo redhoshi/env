@@ -15,15 +15,8 @@ class SpotifyChart extends StatefulWidget {
 
   final String id = APIid;
   final String keySecret = APIkey;
-
-  /*final String id = '4165b1eba92f4b719ae5d521185a203b';
-  final String keySecret = 'eff32d955b304e8c8a425ea17708fba2';*/
 }
-/*
-class key {
-  static final id = '4165b1eba92f4b719ae5d521185a203b';
-  static final key_secret = '4165b1eba92f4b719ae5d521185a203b';
-}*/
+
 //---link
 //https://pub.dev/packages/syncfusion_flutter_charts
 
