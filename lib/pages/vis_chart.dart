@@ -29,7 +29,8 @@ class _VisChartState extends State<VisChart> {
   ];
 
   //折線に縦にdanceability, 横に曲名を格納
-  List<_LineData> chartData = [];
+  List<_LineData> lineData = [];
+  List<ChartData> chartData = [];
 
 //floating buttonが押された
   List<List<dynamic>> _data = [];
@@ -58,14 +59,18 @@ class _VisChartState extends State<VisChart> {
     allData = await processCsv("twice_release_year.csv") as List<List>;
     yearData = await processCsv("twice_year.csv") as List<List>;
     danceData.isEmpty ? null : Add_list();
-    print('${danceData[4][1]}, ${csvData[4][1]}, ${yearData[1][1]}');
+    print(
+        '${danceData[4][1]}, ${csvData[4][1]}, ${yearData[1][1]}, all:,${allData[0][3]},${allData[0][4]},,${allData[0][6]},${allData[0][7]}');
     setState(() {});
   }
 
   //Add Data to Each Chart
   void Add_list() {
     for (var i = 1; i < danceData.length; i++)
-      chartData.add(_LineData(allData[i][15], danceData[i][1]));
+      lineData.add(_LineData(allData[i][15], danceData[i][1]));
+    for (var i = 1; i < danceData.length; i++)
+      chartData.add(ChartData(allData[i][15], allData[i][3], allData[i][4],
+          allData[i][6], allData[i][7]));
   }
 
   @override
@@ -85,14 +90,46 @@ class _VisChartState extends State<VisChart> {
             child: Column(children: [
               SfCartesianChart(
                   primaryXAxis: CategoryAxis(),
-                  title: ChartTitle(text: 'Dannceability per year'),
+                  legend: Legend(
+                    isVisible: true,
+                    // Legend title
+                    title: LegendTitle(
+                        text: 'Features',
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w900)),
+                  ),
+                  series: <ChartSeries>[
+                    StackedColumn100Series<ChartData, num>(
+                        dataSource: chartData,
+                        xValueMapper: (ChartData data, _) => data.x,
+                        yValueMapper: (ChartData data, _) => data.y,
+                        name: 'danceability'),
+                    StackedColumn100Series<ChartData, num>(
+                        dataSource: chartData,
+                        xValueMapper: (ChartData data, _) => data.x,
+                        yValueMapper: (ChartData data, _) => data.y2,
+                        name: 'energy'),
+                    StackedColumn100Series<ChartData, num>(
+                        dataSource: chartData,
+                        xValueMapper: (ChartData data, _) => data.x,
+                        yValueMapper: (ChartData data, _) => data.y3,
+                        name: 'speechiness'),
+                    StackedColumn100Series<ChartData, num>(
+                        dataSource: chartData,
+                        xValueMapper: (ChartData data, _) => data.x,
+                        yValueMapper: (ChartData data, _) => data.y4,
+                        name: 'acousticness')
+                  ]),
+              SfCartesianChart(
+                  primaryXAxis: CategoryAxis(),
+                  title: ChartTitle(text: 'Danceability per year'),
                   series: <ChartSeries>[
                     ScatterSeries<_LineData, num>(
-                        dataSource: chartData,
-                        xValueMapper: (_LineData chartData, _) =>
-                            chartData.year,
-                        yValueMapper: (_LineData chartData, _) =>
-                            chartData.sales,
+                        dataSource: lineData,
+                        xValueMapper: (_LineData lineData, _) => lineData.year,
+                        yValueMapper: (_LineData lineData, _) => lineData.sales,
                         name: 'Sales',
                         // Enable data label
                         dataLabelSettings: DataLabelSettings(isVisible: true))
@@ -140,4 +177,13 @@ class _LineData {
   _LineData(this.year, this.sales);
   final num year;
   final double sales;
+}
+
+class ChartData {
+  ChartData(this.x, this.y, this.y2, this.y3, this.y4);
+  final num x;
+  final double y;
+  final double y2;
+  final double y3;
+  final double y4;
 }
