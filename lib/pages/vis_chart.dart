@@ -36,6 +36,8 @@ class _VisChartState extends State<VisChart> {
   List<List<dynamic>> _linedata = [];
   List<List<dynamic>> csvData = []; //song name
   List<List<dynamic>> danceData = []; //danceabiligy
+  List<List<dynamic>> allData = [];
+  List<List<dynamic>> yearData = [];
 
   //popularity
   final popularity = [];
@@ -53,15 +55,17 @@ class _VisChartState extends State<VisChart> {
   Future<void> Processed_csv() async {
     csvData = await processCsv("twice_name.csv") as List<List>;
     danceData = await processCsv("twice_spotify_pop.csv") as List<List>;
+    allData = await processCsv("twice_release_year.csv") as List<List>;
+    yearData = await processCsv("twice_year.csv") as List<List>;
     danceData.isEmpty ? null : Add_list();
-    print(danceData[3][1]);
+    print('${danceData[4][1]}, ${csvData[4][1]}, ${yearData[1][1]}');
     setState(() {});
   }
 
   //Add Data to Each Chart
   void Add_list() {
     for (var i = 1; i < danceData.length; i++)
-      chartData.add(_LineData(csvData[i][1], danceData[i][1]));
+      chartData.add(_LineData(allData[i][15], danceData[i][1]));
   }
 
   @override
@@ -81,9 +85,9 @@ class _VisChartState extends State<VisChart> {
             child: Column(children: [
               SfCartesianChart(
                   primaryXAxis: CategoryAxis(),
-                  title: ChartTitle(text: 'Half yearly sales'),
-                  series: <ChartSeries<_LineData, String>>[
-                    LineSeries<_LineData, String>(
+                  title: ChartTitle(text: 'Dannceability per year'),
+                  series: <ChartSeries>[
+                    ScatterSeries<_LineData, num>(
                         dataSource: chartData,
                         xValueMapper: (_LineData chartData, _) =>
                             chartData.year,
@@ -134,6 +138,6 @@ class _SalesData {
 
 class _LineData {
   _LineData(this.year, this.sales);
-  final String year;
+  final num year;
   final double sales;
 }
