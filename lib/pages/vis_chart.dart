@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:js_util';
+import 'data.dart';
 
 import 'package:csv/csv.dart';
 import 'package:flutter/foundation.dart';
@@ -31,6 +33,7 @@ class _VisChartState extends State<VisChart> {
   //折線に縦にdanceability, 横に曲名を格納
   List<_LineData> lineData = [];
   List<ChartData> chartData = [];
+  //List<TempoData> tempoData = [];
 
 //floating buttonが押された
   List<List<dynamic>> _data = [];
@@ -43,6 +46,9 @@ class _VisChartState extends State<VisChart> {
   //popularity
   final popularity = [];
   final track_list = [];
+  final tempo = [];
+
+  final heatmapChannel = StreamController<Selected?>.broadcast();
 
   //Read CSV
   Future<List> processCsv(filename) async {
@@ -60,7 +66,7 @@ class _VisChartState extends State<VisChart> {
     yearData = await processCsv("twice_year.csv") as List<List>;
     danceData.isEmpty ? null : Add_list();
     print(
-        '${danceData[4][1]}, ${csvData[4][1]}, ${yearData[1][1]}, all:,${allData[0][3]},${allData[0][4]},,${allData[0][6]},${allData[0][7]}');
+        '${danceData[4][1]}, ${csvData[4][1]}, ${yearData[1][1]}, all:,${allData[1][4]},${allData[1][16]},,${allData[1][11]},${allData[0][7]}');
     setState(() {});
   }
 
@@ -71,6 +77,12 @@ class _VisChartState extends State<VisChart> {
     for (var i = 1; i < danceData.length; i++)
       chartData.add(ChartData(allData[i][15], allData[i][3], allData[i][4],
           allData[i][6], allData[i][7]));
+    for (var i = 1; i < danceData.length; i++)
+      // tempoData.add(TempoData(allData[i][4], allData[i][16],allData[i][11])); //0.905,talk to talk ,111
+      tempo.addAll([
+        [allData[i][4], allData[i][16], allData[i][1]]
+      ]);
+    print('tempo::$tempo');
   }
 
   @override
@@ -134,6 +146,18 @@ class _VisChartState extends State<VisChart> {
                         // Enable data label
                         dataLabelSettings: DataLabelSettings(isVisible: true))
                   ]),
+              FloatingActionButton(onPressed: () {
+                print('$tempo,');
+                //  _loadCSV();
+              })
+            ]),
+          ),
+        ),
+        Expanded(
+          flex: 5, // 割合.
+          child: new SizedBox(
+              child: Column(
+            children: [
               SfCartesianChart(
                   primaryXAxis: CategoryAxis(),
                   title: ChartTitle(text: 'Half yearly sales analysis'),
@@ -150,16 +174,50 @@ class _VisChartState extends State<VisChart> {
                         // Enable data label
                         dataLabelSettings: DataLabelSettings(isVisible: true))
                   ]),
-              FloatingActionButton(onPressed: () {
-                print(csvData[1][1]);
-                //  _loadCSV();
-              })
-            ]),
-          ),
-        ),
-        Expanded(
-          flex: 5, // 割合.
-          child: Text('hello'),
+              Text('Graph Name'),
+              new SizedBox(
+                width: 400,
+                height: 400,
+                child: Chart(
+                  data: heatmapData, //tempoData(llist諸々),tempo(finalのlist)
+                  variables: {
+                    'key': Variable(
+                      accessor: (List datum) => datum[1].toString(),
+                    ),
+                    'song name':
+                        Variable(accessor: (List datum) => datum[3].toString()),
+                    'popularity': Variable(
+                      accessor: (List datum) => datum[0] as num,
+                    ),
+                  },
+                  elements: [
+                    PolygonElement(
+                      shape: ShapeAttr(value: HeatmapShape(sector: true)),
+                      color: ColorAttr(
+                        variable: 'popularity',
+                        values: [
+                          const Color(0xffbae7ff),
+                          const Color(0xff1890ff),
+                          const Color(0xff0050b3)
+                        ],
+                        updaters: {
+                          'tap': {false: (color) => color.withAlpha(70)}
+                        },
+                      ),
+                      selectionChannel: heatmapChannel,
+                    )
+                  ],
+                  coord: PolarCoord(),
+                  selections: {'tap': PointSelection()},
+                  tooltip: TooltipGuide(
+                    anchor: (_) => Offset.zero,
+                    align: Alignment.bottomRight,
+                  ),
+                ),
+              ),
+              Text('ih'),
+            ],
+          )),
         ),
       ]),
     );
@@ -187,3 +245,10 @@ class ChartData {
   final double y3;
   final double y4;
 }
+/*
+class TempoData {
+  TempoData(this.x, this.y, this.z);
+  final num x;
+  final String y;
+  final num z;
+}*/
