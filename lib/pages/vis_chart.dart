@@ -158,22 +158,59 @@ class _VisChartState extends State<VisChart> {
           child: new SizedBox(
               child: Column(
             children: [
-              SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
-                  title: ChartTitle(text: 'Half yearly sales analysis'),
-                  // Enable legend
-                  legend: Legend(isVisible: true),
-                  // Enable tooltip
-                  tooltipBehavior: TooltipBehavior(enable: true),
-                  series: <ChartSeries<_SalesData, String>>[
-                    LineSeries<_SalesData, String>(
-                        dataSource: data,
-                        xValueMapper: (_SalesData sales, _) => sales.year,
-                        yValueMapper: (_SalesData sales, _) => sales.sales,
-                        name: 'Sales',
-                        // Enable data label
-                        dataLabelSettings: DataLabelSettings(isVisible: true))
-                  ]),
+              new SizedBox(
+                width: 400,
+                height: 400,
+                child: Chart(
+                  data: test_data, //popuData,scatterData
+                  variables: {
+                    '0': Variable(
+                      accessor: (List datum) => datum[1] as num,
+                    ),
+                    '1': Variable(
+                      accessor: (List datum) => datum[2] as num,
+                    ),
+                    '2': Variable(
+                      accessor: (List datum) => datum[0] as num,
+                    ),
+                    '4': Variable(
+                      accessor: (List datum) => datum[3].toString(),
+                    ),
+                  },
+                  elements: [
+                    PointElement(
+                      size: SizeAttr(variable: '2', values: [5, 20]),
+                      color: ColorAttr(
+                        variable: '4',
+                        values: Defaults.colors10,
+                        updaters: {
+                          'choose': {true: (_) => Colors.red}
+                        },
+                      ),
+                      shape: ShapeAttr(variable: '4', values: [
+                        CircleShape(hollow: true),
+                        SquareShape(hollow: true),
+                      ]),
+                    )
+                  ],
+                  axes: [
+                    Defaults.horizontalAxis,
+                    Defaults.verticalAxis,
+                  ],
+                  coord: RectCoord(
+                    horizontalRange: [0.05, 0.95],
+                    verticalRange: [0.05, 0.95],
+                    horizontalRangeUpdater: Defaults.horizontalRangeSignal,
+                    verticalRangeUpdater: Defaults.verticalRangeSignal,
+                  ),
+                  selections: {'choose': PointSelection(toggle: true)},
+                  tooltip: TooltipGuide(
+                    anchor: (_) => Offset.zero,
+                    align: Alignment.bottomRight,
+                    multiTuples: true,
+                  ),
+                ),
+              ),
               Text('Graph Name'),
               new SizedBox(
                 width: 400,
