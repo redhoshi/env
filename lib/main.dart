@@ -67,8 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                       width: screenSize.width / 100,
                     ),
-                    Text("Visualization",
-                        style: TextStyle(color: Colors.white)),
+                    SizedBox(
+                      height: screenSize.height / 60,
+                      child: Text("Visualization",
+                          style: TextStyle(color: Colors.white, fontSize: 14)),
+                    ),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
