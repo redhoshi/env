@@ -1,12 +1,5 @@
-import 'dart:convert';
-import 'dart:html';
-
-import 'package:env/pages/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'box_folder.dart';
-import 'spotify.dart';
-import 'title.dart';
 import 'pages/vis_chart.dart';
 
 void main() {

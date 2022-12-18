@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:js_util';
 import 'data.dart';
 
 import 'package:csv/csv.dart';
