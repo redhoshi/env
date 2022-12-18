@@ -1,3 +1,4 @@
-2022/12/18-12:38:58.911 8e03 Reusing MANIFEST /private/var/folders/vs/x3fvf7cx37n1tbgzfjpym8n80000gn/T/flutter_tools.FYLw50/flutter_tools_chrome_device.jOI1eE/Default/Service Worker/Database/MANIFEST-000001
-2022/12/18-12:38:58.911 8e03 Recovering log #3
-2022/12/18-12:38:58.912 8e03 Reusing old log /private/var/folders/vs/x3fvf7cx37n1tbgzfjpym8n80000gn/T/flutter_tools.FYLw50/flutter_tools_chrome_device.jOI1eE/Default/Service Worker/Database/000003.log 
+2022/12/18-13:51:28.454 8c03 Reusing MANIFEST /private/var/folders/vs/x3fvf7cx37n1tbgzfjpym8n80000gn/T/flutter_tools.yg5hqv/flutter_tools_chrome_device.yQ3Aok/Default/Service Worker/Database/MANIFEST-000001
+2022/12/18-13:51:28.454 8c03 Recovering log #3
+2022/12/18-13:51:28.454 8c03 (ignoring error) /private/var/folders/vs/x3fvf7cx37n1tbgzfjpym8n80000gn/T/flutter_tools.yg5hqv/flutter_tools_chrome_device.yQ3Aok/Default/Service Worker/Database/000003.log: dropping 64 bytes; Corruption: missing start of fragmented record(2)
+2022/12/18-13:51:28.454 8c03 Reusing old log /private/var/folders/vs/x3fvf7cx37n1tbgzfjpym8n80000gn/T/flutter_tools.yg5hqv/flutter_tools_chrome_device.yQ3Aok/Default/Service Worker/Database/000003.log 

@@ -21,13 +21,6 @@ class VisChart extends StatefulWidget {
 class _VisChartState extends State<VisChart> {
   //const VisChart({Key? key}) : super(key: key);
   var sadf = 0;
-  List<_SalesData> data = [
-    _SalesData('Jan', 35),
-    _SalesData('Feb', 28),
-    _SalesData('Mar', 34),
-    _SalesData('Apr', 32),
-    _SalesData('May', 40)
-  ];
 
   //折線に縦にdanceability, 横に曲名を格納
   List<_LineData> lineData = [];
@@ -60,29 +53,29 @@ class _VisChartState extends State<VisChart> {
 
   //Return CSVdata
   Future<void> Processed_csv() async {
-    csvData = await processCsv("twice_name.csv") as List<List>;
-    danceData = await processCsv("twice_spotify_pop.csv") as List<List>;
-    allData = await processCsv("twice_release_year.csv") as List<List>;
-    yearData = await processCsv("twice_year.csv") as List<List>;
-    danceData.isEmpty ? null : Add_list();
-    print(
-        '${danceData[4][1]}, ${csvData[4][1]}, ${yearData[1][1]}, all:,${allData[1][4]},${allData[1][16]},,${allData[1][11]},${allData[0][7]}');
+    // csvData = await processCsv("twice_name.csv") as List<List>;
+    // danceData = await processCsv("twice_spotify_pop.csv") as List<List>;
+    allData = await processCsv("assets/twice_release_year.csv") as List<List>;
+    // yearData = await processCsv("twice_year.csv") as List<List>;
+    allData.isEmpty ? null : Add_list();
+    /* print(
+        '${danceData[4][1]}, ${csvData[4][1]}, ${yearData[1][1]}, all:,${allData[1][4]},${allData[1][16]},,${allData[1][11]},${allData[0][7]}');*/
     setState(() {});
   }
 
   //Add Data to Each Chart
   void Add_list() {
+    /*
     for (var i = 1; i < danceData.length; i++)
       lineData.add(_LineData(allData[i][15], danceData[i][1]));
     for (var i = 1; i < danceData.length; i++)
-      chartData.add(ChartData(allData[i][15], allData[i][3], allData[i][4],
-          allData[i][6], allData[i][7]));
-    for (var i = 1; i < danceData.length; i++)
-      // tempoData.add(TempoData(allData[i][4], allData[i][16],allData[i][11])); //0.905,talk to talk ,111
       tempo.addAll([
         [allData[i][4], allData[i][16], allData[i][1]]
-      ]);
-    print('tempo::$tempo');
+      ]);*/
+    for (var i = 1; i < allData.length; i++)
+      chartData.add(ChartData(allData[i][15], allData[i][3], allData[i][4],
+          allData[i][6], allData[i][7]));
+    print('tempo::$chartData');
   }
 
   @override
@@ -109,17 +102,11 @@ class _VisChartState extends State<VisChart> {
                     legend: Legend(
                       isVisible: true,
                       position: LegendPosition.top,
-                      title: LegendTitle(
-                          /*  text: 'Features',
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.w900)*/
-                          ),
+                      title: LegendTitle(),
                     ),
                     series: <ChartSeries>[
                       StackedColumn100Series<ChartData, num>(
-                          dataSource: chartData,
+                          dataSource: chartData, //
                           xValueMapper: (ChartData data, _) => data.x,
                           yValueMapper: (ChartData data, _) => data.y,
                           name: 'danceability'),
