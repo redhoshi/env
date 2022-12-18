@@ -10,10 +10,10 @@ firebase-debug.*.log*
 # Firebase cache
 .firebase/
 lib/key/
-lib/pages/spotify.dart
-lib/pages/box_folder.dart
-lib/function/
-lib/drawer.dart
+lib/box_folder.dart
+lib/pages/drawer.dart
+lib/title.dart
+lib/spotify.dart
 
 .vscode/
 

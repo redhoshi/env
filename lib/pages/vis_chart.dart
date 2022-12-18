@@ -47,6 +47,7 @@ class _VisChartState extends State<VisChart> {
   final popularity = [];
   final track_list = [];
   final tempo = [];
+  final relaseChannel = StreamController<GestureSignal>.broadcast();
 
   final heatmapChannel = StreamController<Selected?>.broadcast();
 
@@ -100,41 +101,142 @@ class _VisChartState extends State<VisChart> {
           flex: 5, // 割合.
           child: SizedBox(
             child: Column(children: [
-              SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
-                  legend: Legend(
-                    isVisible: true,
-                    // Legend title
-                    title: LegendTitle(
-                        text: 'Features',
-                        textStyle: TextStyle(
-                            fontSize: 15,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w900)),
+              Text('Band chart'),
+              new SizedBox(
+                width: 400,
+                height: 400,
+                child: SfCartesianChart(
+                    primaryXAxis: CategoryAxis(),
+                    legend: Legend(
+                      isVisible: true,
+                      position: LegendPosition.top,
+                      title: LegendTitle(
+                          /*  text: 'Features',
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w900)*/
+                          ),
+                    ),
+                    series: <ChartSeries>[
+                      StackedColumn100Series<ChartData, num>(
+                          dataSource: chartData,
+                          xValueMapper: (ChartData data, _) => data.x,
+                          yValueMapper: (ChartData data, _) => data.y,
+                          name: 'danceability'),
+                      StackedColumn100Series<ChartData, num>(
+                          dataSource: chartData,
+                          xValueMapper: (ChartData data, _) => data.x,
+                          yValueMapper: (ChartData data, _) => data.y2,
+                          name: 'energy'),
+                      StackedColumn100Series<ChartData, num>(
+                          dataSource: chartData,
+                          xValueMapper: (ChartData data, _) => data.x,
+                          yValueMapper: (ChartData data, _) => data.y3,
+                          name: 'speechiness'),
+                      StackedColumn100Series<ChartData, num>(
+                          dataSource: chartData,
+                          xValueMapper: (ChartData data, _) => data.x,
+                          yValueMapper: (ChartData data, _) => data.y4,
+                          name: 'acousticness')
+                    ]),
+              ),
+              Text('Band and Bar chart'),
+              new SizedBox(
+                width: 400,
+                height: 160,
+                child: Chart(
+                  padding: (_) => const EdgeInsets.fromLTRB(40, 5, 10, 0),
+                  rebuild: false,
+                  data: release_pop,
+                  variables: {
+                    'time': Variable(
+                      accessor: (List datum) => datum[6].toString(),
+                      scale: OrdinalScale(tickCount: 3),
+                    ),
+                    'end': Variable(
+                      accessor: (List datum) => datum[3] as num,
+                      scale: LinearScale(min: 5, tickCount: 5),
+                    ),
+                  },
+                  elements: [
+                    LineElement(
+                      size: SizeAttr(value: 1),
+                    )
+                  ],
+                  axes: [
+                    Defaults.horizontalAxis
+                      ..label = null
+                      ..line = null,
+                    Defaults.verticalAxis
+                      ..gridMapper = (_, index, __) =>
+                          index == 0 ? null : Defaults.strokeStyle,
+                  ],
+                  selections: {
+                    'touchMove': PointSelection(
+                      on: {
+                        GestureType.scaleUpdate,
+                        GestureType.tapDown,
+                        GestureType.longPressMoveUpdate
+                      },
+                      dim: Dim.x,
+                    )
+                  },
+                  crosshair: CrosshairGuide(
+                    followPointer: [true, false],
+                    styles: [
+                      StrokeStyle(color: const Color(0xffbfbfbf), dash: [4, 2]),
+                      StrokeStyle(color: const Color(0xffbfbfbf), dash: [4, 2]),
+                    ],
                   ),
-                  series: <ChartSeries>[
-                    StackedColumn100Series<ChartData, num>(
-                        dataSource: chartData,
-                        xValueMapper: (ChartData data, _) => data.x,
-                        yValueMapper: (ChartData data, _) => data.y,
-                        name: 'danceability'),
-                    StackedColumn100Series<ChartData, num>(
-                        dataSource: chartData,
-                        xValueMapper: (ChartData data, _) => data.x,
-                        yValueMapper: (ChartData data, _) => data.y2,
-                        name: 'energy'),
-                    StackedColumn100Series<ChartData, num>(
-                        dataSource: chartData,
-                        xValueMapper: (ChartData data, _) => data.x,
-                        yValueMapper: (ChartData data, _) => data.y3,
-                        name: 'speechiness'),
-                    StackedColumn100Series<ChartData, num>(
-                        dataSource: chartData,
-                        xValueMapper: (ChartData data, _) => data.x,
-                        yValueMapper: (ChartData data, _) => data.y4,
-                        name: 'acousticness')
-                  ]),
-              SfCartesianChart(
+                  gestureChannel: relaseChannel,
+                ),
+              ),
+              new SizedBox(
+                width: 400,
+                height: 160,
+                child: Chart(
+                  padding: (_) => const EdgeInsets.fromLTRB(40, 0, 10, 20),
+                  rebuild: false,
+                  data: release_pop,
+                  variables: {
+                    'time': Variable(
+                      accessor: (List datum) => datum[6].toString(), //一定
+                      scale: OrdinalScale(tickCount: 3),
+                    ),
+                    'volume': Variable(
+                      accessor: (List datum) => datum[0] as num, //一定
+                    ),
+                  },
+                  elements: [
+                    IntervalElement(
+                      size: SizeAttr(value: 1),
+                    )
+                  ],
+                  axes: [
+                    Defaults.horizontalAxis,
+                  ],
+                  selections: {
+                    'touchMove': PointSelection(
+                      on: {
+                        GestureType.scaleUpdate,
+                        GestureType.tapDown,
+                        GestureType.longPressMoveUpdate
+                      },
+                      dim: Dim.x,
+                    )
+                  },
+                  crosshair: CrosshairGuide(
+                    followPointer: [true, false],
+                    styles: [
+                      StrokeStyle(color: const Color(0xffbfbfbf), dash: [4, 2]),
+                      StrokeStyle(color: const Color(0xffbfbfbf), dash: [4, 2]),
+                    ],
+                  ),
+                  gestureChannel: relaseChannel,
+                ),
+              ),
+              /* SfCartesianChart(
                   primaryXAxis: CategoryAxis(),
                   title: ChartTitle(text: 'Danceability per year'),
                   series: <ChartSeries>[
@@ -145,11 +247,7 @@ class _VisChartState extends State<VisChart> {
                         name: 'Sales',
                         // Enable data label
                         dataLabelSettings: DataLabelSettings(isVisible: true))
-                  ]),
-              FloatingActionButton(onPressed: () {
-                print('$tempo,');
-                //  _loadCSV();
-              })
+                  ]),*/
             ]),
           ),
         ),
@@ -159,8 +257,12 @@ class _VisChartState extends State<VisChart> {
               child: Column(
             children: [
               new SizedBox(
+                height: 40,
+              ),
+              Text('Scatter chart'),
+              new SizedBox(
                 width: 400,
-                height: 400,
+                height: 360,
                 child: Chart(
                   data: test_data, //popuData,scatterData
                   variables: {
@@ -211,7 +313,7 @@ class _VisChartState extends State<VisChart> {
                   ),
                 ),
               ),
-              Text('Graph Name'),
+              Text('Circular heatmap'),
               new SizedBox(
                 width: 400,
                 height: 400,
@@ -252,7 +354,6 @@ class _VisChartState extends State<VisChart> {
                   ),
                 ),
               ),
-              Text('ih'),
             ],
           )),
         ),
@@ -282,10 +383,3 @@ class ChartData {
   final double y3;
   final double y4;
 }
-/*
-class TempoData {
-  TempoData(this.x, this.y, this.z);
-  final num x;
-  final String y;
-  final num z;
-}*/

@@ -20,6 +20,11 @@ jobs:
       - name: Download Flutter packages
         run: flutter pub get
       - run: flutter build web
+
+      - name: Run script
+         run: echo $ENV1
+         env:
+          ENV1: ${{secrets.API_ID}}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

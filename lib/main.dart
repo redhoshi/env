@@ -1,8 +1,12 @@
-import 'package:env/drawer.dart';
+import 'dart:convert';
+import 'dart:html';
+
+import 'package:env/pages/drawer.dart';
 import 'package:flutter/material.dart';
-import 'pages/box_folder.dart';
-import 'pages/spotify.dart';
-import 'pages/title.dart';
+import 'package:flutter/services.dart';
+import 'box_folder.dart';
+import 'spotify.dart';
+import 'title.dart';
 import 'pages/vis_chart.dart';
 
 void main() {
@@ -55,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SingleChildScrollView(
               child: Stack(children: [
             Container(
-              color: Colors.deepOrangeAccent,
+              color: Colors.indigo,
               height: screenSize.height * 0.07,
               width: screenSize.width,
               child: Padding(
@@ -70,7 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                       width: screenSize.width / 100,
                     ),
-                    Text("Redhoshi's PhotoFolio"),
+                    Text("Visualization",
+                        style: TextStyle(color: Colors.white)),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -81,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {});
                             },
                             child: Text(
-                              'About',
+                              '',
                               style: TextStyle(),
                             ),
                           ),
@@ -92,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {});
                             },
                             child: Text(
-                              'Contact me',
+                              '',
                             ),
                           ),
                         ],
@@ -107,37 +112,18 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Padding(
                 padding: EdgeInsets.only(
-                    top: screenSize.height * 0.25,
+                    top: screenSize.height * 0.08, //0.25
                     left: screenSize.width * 0.05),
                 child: Column(children: [
                   //BoxFolder(),
                   //Titler(),
-                  //VisChart(),
-                  SpotifyChart(),
+                  VisChart(),
+                  //SpotifyChart(),
                 ])),
           ]))
         ]),
       ),
-      body: Center(
-          /*
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            screenSize.width > 768 ? const CommonDrawer() : Container(),
-            Expanded(
-              child: Column(children: <Widget>[
-                const Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ]),
-            )
-          ],
-        ),*/
-          ),
+      body: Center(),
     );
   }
 }
