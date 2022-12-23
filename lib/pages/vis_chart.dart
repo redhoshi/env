@@ -44,6 +44,7 @@ class _VisChartState extends State<VisChart> {
   final heatmapChannel = StreamController<Selected?>.broadcast();
 
   //Read CSV
+
   Future<List> processCsv(filename) async {
     var result = await DefaultAssetBundle.of(context).loadString(
       filename,
@@ -55,7 +56,7 @@ class _VisChartState extends State<VisChart> {
   Future<void> Processed_csv() async {
     // csvData = await processCsv("twice_name.csv") as List<List>;
     // danceData = await processCsv("twice_spotify_pop.csv") as List<List>;
-    allData = await processCsv("assets/twice_release_year.csv") as List<List>;
+    allData = await processCsv("assets/twice_release_year3.csv") as List<List>;
     // yearData = await processCsv("twice_year.csv") as List<List>;
     allData.isEmpty ? null : Add_list();
     /* print(
@@ -253,13 +254,13 @@ class _VisChartState extends State<VisChart> {
                   data: test_data, //popuData,scatterData
                   variables: {
                     '0': Variable(
-                      accessor: (List datum) => datum[1] as num,
+                      accessor: (List datum) => datum[1] as num, //liveness
                     ),
                     '1': Variable(
-                      accessor: (List datum) => datum[2] as num,
+                      accessor: (List datum) => datum[2] as num, //acousticness
                     ),
                     '2': Variable(
-                      accessor: (List datum) => datum[0] as num,
+                      accessor: (List datum) => datum[0] as num, //popularity
                     ),
                     '4': Variable(
                       accessor: (List datum) => datum[3].toString(),
